@@ -4,15 +4,19 @@ from classes import *
 
 pygame.init()
 clock = pygame.time.Clock()
-BLOCKS = list()
-for x in range(SIZE*SIZE):
-    BLOCKS.append(Block([x % SIZE == 0, x % SIZE == SIZE-1, x // SIZE == 0, x // SIZE == SIZE - 1]))
-MAZE = Maze(BLOCKS, SIZE)
+#BLOCKS = list()
+# for x in range(SIZE*SIZE):
+#     BLOCKS.append(Block([x % SIZE == 0, x % SIZE == SIZE-1, x // SIZE == 0, x // SIZE == SIZE - 1]))
+# MAZE = Maze(BLOCKS, SIZE)
+
+MAZE = MazeCreation().create_random_maze()
+
 
 #MAZE = Maze((Block((True,False,True,False)),), 1)
-DISPLAYSURF = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
+DISPLAYSURF = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE + 20))
 
 pygame.display.set_caption("Maze")
+
 while True:
     DISPLAYSURF.fill((255, 255, 255))
 
