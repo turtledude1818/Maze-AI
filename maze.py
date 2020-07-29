@@ -83,6 +83,7 @@ class Maze():
         for position, block in enumerate(self.blocks):
             block.draw()
             self.surface.blit(block.get_surf(), ((position % self.size) * LENGTH, (position // self.size) * LENGTH))
+        pygame.draw.rect(self.surface, (255, 0, 0), self.agent)
     def update_wall(self, pos):
         absolute_pos = [i // 1 for i in pos]
         pos = [(i / LENGTH) // 1 for i in pos]
@@ -122,9 +123,21 @@ class Maze():
             if side is not None:
                 neighbors.append(self.blocks[side])
         return neighbors
-    def move_agent(self, position):
-        self.agent_block = self.blocks[position]
-        self.agent.clamp(pygame.Rect(position%SIZE*LENGTH, position//SIZE*LENGTH, LENGTH, LENGTH))
+    def move_agent(self, direction):
+        position = self.blocks.index(self.agent_block)
+        if direction == Walls.LEFT.value:
+            self.agent = self.agent.move(-LENGTH, 0)
+            self.agent_block = self.blocks[position-1]
+        if direction == Walls.RIGHT.value:
+            self.agent = self.agent.move(LENGTH, 0)
+            self.agent_block = self.blocks[position+1]
+        if direction == Walls.TOP.value:
+            self.agent = self.agent.move(0, -LENGTH)
+            self.agent_block = self.blocks[position-SIZE]
+        if direction == Walls.BOTTOM.value:
+            self.agent = self.agent.move(0, LENGTH)
+            self.agent_block = self.blocks[position+SIZE]
+        self.draw()
 
 class MazeCreation:
 
