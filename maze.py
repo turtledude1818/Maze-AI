@@ -6,6 +6,7 @@ import pygame
 SIZE = 20
 WINDOW_SIZE = 800
 LENGTH = WINDOW_SIZE // SIZE
+CLOCK_SPEED = 10
 
 class Walls(Enum):
     LEFT = 0
@@ -74,7 +75,9 @@ class Maze():
         self.blocks = blocks
         self.size = size
         self.surface = pygame.Surface((WINDOW_SIZE, WINDOW_SIZE))
-        self.draw()  
+        self.agent = pygame.Rect(LENGTH//4, LENGTH//4, LENGTH//2, LENGTH//2)
+        self.agent_block = self.blocks[0]
+        self.draw()
     def draw(self):
         self.surface.fill((255, 255, 255))
         for position, block in enumerate(self.blocks):
@@ -119,6 +122,9 @@ class Maze():
             if side is not None:
                 neighbors.append(self.blocks[side])
         return neighbors
+    def move_agent(self, position):
+        self.agent_block = self.blocks[position]
+        self.agent.clamp(pygame.Rect(position%SIZE*LENGTH, position//SIZE*LENGTH, LENGTH, LENGTH))
 
 class MazeCreation:
 
@@ -127,7 +133,7 @@ class MazeCreation:
     def create_random_maze(self):
         maze = self.create_walled_maze()
         stack = deque()
-        stack.append(maze.blocks[0])
+        stack.append(maze.blocks[SIZE//2 + SIZE*SIZE//2])
         while stack:
             curr = stack.pop()
             curr_pos = maze.blocks.index(curr)
