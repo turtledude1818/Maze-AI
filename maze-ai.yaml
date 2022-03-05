@@ -1,0 +1,10 @@
+name: maze-ai
+channels:
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip==21.2.4
+  - pip:
+    - pygame==2.1.2
+    - gym==0.19
